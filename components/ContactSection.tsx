@@ -3,6 +3,7 @@
 import { memo } from "react";
 import { motion } from "framer-motion";
 import { Code2, Link, Mail } from "lucide-react";
+import { ChapterLabel } from "./ChapterLabel";
 
 function XLogo() {
   return (
@@ -24,7 +25,7 @@ function ContactSectionComponent() {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
-        <p className="text-sm font-medium text-[var(--accent-soft)]">Contact</p>
+        <ChapterLabel number="04" label="Contact" />
         <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-6xl">Let&apos;s make the proof easy to inspect.</h2>
         <p className="mt-6 text-lg leading-8 text-zinc-400">
           Reach me directly by email, or follow the build in public on X and explore my work through GitHub and LinkedIn.

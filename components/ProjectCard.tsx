@@ -1,17 +1,37 @@
 "use client";
 
 import { memo } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { Code2, PlayCircle, ArrowUpRight } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { SkillPill } from "./SkillPill";
 import { pathThemes, type PathName } from "@/data/paths";
+import { EASE } from "./motionPresets";
 
 function ProjectCardComponent({ project, selectedPath, index = 0 }: { project: Project; selectedPath: PathName; index?: number }) {
   const theme = pathThemes[selectedPath];
+  const shouldReduceMotion = useReducedMotion();
   const appLinkReady = Boolean(project.appUrl && project.appUrl !== "#");
+
+  // Hover tilt
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const rotateX = useSpring(useTransform(tiltY, [-0.5, 0.5], [5, -5]), { stiffness: 220, damping: 30 });
+  const rotateY = useSpring(useTransform(tiltX, [-0.5, 0.5], [-5, 5]), { stiffness: 220, damping: 30 });
+
+  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
+    if (shouldReduceMotion) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    tiltX.set((e.clientX - rect.left) / rect.width - 0.5);
+    tiltY.set((e.clientY - rect.top) / rect.height - 0.5);
+  }
+  function handleMouseLeave() {
+    tiltX.set(0);
+    tiltY.set(0);
+  }
+
   const thumbnail = project.thumbnailUrl ? (
     <Image
       src={project.thumbnailUrl}
@@ -32,10 +52,13 @@ function ProjectCardComponent({ project, selectedPath, index = 0 }: { project: P
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 18 }}
-      whileHover={{ y: -5 }}
-      transition={{ duration: 0.34, delay: index * 0.035, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.34, delay: index * 0.035, ease: EASE }}
+      style={shouldReduceMotion ? {} : { rotateX, rotateY, perspective: 900 }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className={`group [contain:content] rounded-[1.75rem] border ${theme.border} ${theme.card} p-5 shadow-lg shadow-black/25 transition-[border-color,box-shadow] duration-300 hover:border-[var(--accent-border)] hover:shadow-[0_12px_42px_var(--accent-glow)]`}
     >
+      {/* Thumbnail */}
       <div className="relative mb-5 aspect-video overflow-hidden rounded-[1.25rem] border border-[color-mix(in_srgb,var(--accent)_14%,transparent)] bg-gradient-to-br from-[color-mix(in_srgb,var(--accent)_12%,transparent)] to-transparent">
         <div className="pointer-events-none absolute inset-0 translate-x-[-120%] bg-[linear-gradient(115deg,transparent,color-mix(in_srgb,var(--accent-soft)_20%,transparent),transparent)] transition-transform duration-700 group-hover:translate-x-[120%]" />
         {project.thumbnailLinkUrl ? (
@@ -50,6 +73,7 @@ function ProjectCardComponent({ project, selectedPath, index = 0 }: { project: P
         )}
       </div>
 
+      {/* Path tags */}
       <div className="mb-3 flex flex-wrap gap-2">
         {project.paths.map((path) => (
           <span key={path} className="rounded-full border border-[color-mix(in_srgb,var(--accent)_18%,transparent)] px-2.5 py-1 text-[11px] text-zinc-300 opacity-75 transition group-hover:border-[var(--accent-border)] group-hover:text-[var(--accent-soft)] group-hover:opacity-100">
@@ -61,12 +85,32 @@ function ProjectCardComponent({ project, selectedPath, index = 0 }: { project: P
       <h3 className="text-xl font-semibold tracking-tight">{project.title}</h3>
       <p className={`mt-2 text-sm leading-6 ${theme.muted}`}>{project.summary}</p>
 
+      {/* Result + decisions */}
+      {(project.result || project.decisions?.length) && (
+        <div className="mt-3 space-y-1.5 border-t border-white/5 pt-3">
+          {project.result && (
+            <p className="text-xs leading-5 text-zinc-500">
+              <span className="font-medium text-[var(--accent-soft)]">↳ </span>
+              {project.result}
+            </p>
+          )}
+          {project.decisions?.slice(0, 3).map((d) => (
+            <p key={d} className="flex items-start gap-1.5 text-xs leading-5 text-zinc-600">
+              <span className="mt-px shrink-0 text-[var(--accent-soft)] opacity-40">—</span>
+              {d}
+            </p>
+          ))}
+        </div>
+      )}
+
+      {/* Stack */}
       <div className="mt-4 flex flex-wrap gap-2">
         {project.stack.slice(0, 5).map((item) => (
           <SkillPill key={item}>{item}</SkillPill>
         ))}
       </div>
 
+      {/* Actions */}
       <div className="mt-6 flex flex-wrap gap-3 text-sm font-semibold">
         {project.appUrl &&
           (appLinkReady ? (

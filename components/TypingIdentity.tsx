@@ -12,6 +12,8 @@ const roles = [
   "ML Engineer",
 ];
 
+const SCRAMBLE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789#@$";
+
 const typingSpeed = 70;
 const deletingSpeed = 35;
 const fullPause = 1200;
@@ -22,6 +24,7 @@ export function TypingIdentity({ accentClassName }: { accentClassName: string })
   const [displayedRole, setDisplayedRole] = useState(roles[0]);
   const [deleting, setDeleting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [scrambleChar, setScrambleChar] = useState("");
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -35,6 +38,23 @@ export function TypingIdentity({ accentClassName }: { accentClassName: string })
     mediaQuery.addEventListener("change", handleMotionPreference);
     return () => mediaQuery.removeEventListener("change", handleMotionPreference);
   }, []);
+
+  // Scramble character cycles ahead of the cursor while typing
+  useEffect(() => {
+    if (reducedMotion || deleting) {
+      setScrambleChar("");
+      return;
+    }
+    const currentRole = roles[roleIndex];
+    if (displayedRole === currentRole) {
+      setScrambleChar("");
+      return;
+    }
+    const id = setInterval(() => {
+      setScrambleChar(SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)]);
+    }, 55);
+    return () => clearInterval(id);
+  }, [reducedMotion, deleting, displayedRole, roleIndex]);
 
   useEffect(() => {
     if (reducedMotion) return;
@@ -72,7 +92,12 @@ export function TypingIdentity({ accentClassName }: { accentClassName: string })
   return (
     <p className="mt-5 text-2xl font-semibold tracking-tight md:text-3xl">
       <span>I am a </span>
-      <span className={`bg-gradient-to-r bg-clip-text text-transparent ${accentClassName}`}>{displayedRole}</span>
+      <span className={`bg-gradient-to-r bg-clip-text text-transparent ${accentClassName}`}>
+        {displayedRole}
+        {!reducedMotion && !deleting && scrambleChar && (
+          <span className="opacity-30">{scrambleChar}</span>
+        )}
+      </span>
       {!reducedMotion && (
         <span className="ml-1 inline-block h-7 w-0.5 translate-y-1 animate-pulse rounded-full bg-[var(--accent)] md:h-8" />
       )}

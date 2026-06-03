@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { SkillPill } from "./SkillPill";
+import { ChapterLabel } from "./ChapterLabel";
 
 const skillCategories = [
   { title: "Analytics & BI", skills: ["Data Analysis", "Analytical Skills", "Tableau", "Power BI", "Advanced Excel", "PivotTables", "Dashboarding", "Data Visualization", "Data Mining", "Data Governance", "Healthcare Analytics", "Bias Analysis", "Location Analysis"] },
@@ -73,7 +74,7 @@ function SkillsSectionComponent() {
         transition={{ duration: 0.58, ease: easeOut }}
         className="max-w-4xl"
       >
-        <p className="text-sm font-medium text-[var(--accent-soft)]">Skills</p>
+        <ChapterLabel number="03" label="Skills" />
         <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-6xl">Skills & Certifications</h2>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-400">
           Tools, technologies, and credentials behind my work across data, AI, product systems, and security-aware design.
@@ -110,7 +111,7 @@ function SkillsSectionComponent() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.5, ease: easeOut }}
         >
-          <p className="text-sm font-medium text-[var(--accent-soft)]">Credentials</p>
+          <ChapterLabel number="03.1" label="Credentials" />
           <h3 className="mt-2 text-3xl font-semibold tracking-tight md:text-5xl">Certifications</h3>
           <p className="mt-4 max-w-2xl leading-7 text-zinc-400">
             Credentials supporting my work in machine learning, NLP, Tableau, Excel, and applied data analytics.

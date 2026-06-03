@@ -2,6 +2,7 @@
 
 import { memo } from "react";
 import { motion } from "framer-motion";
+import { ChapterLabel } from "./ChapterLabel";
 
 function AboutSectionComponent() {
   return (
@@ -12,7 +13,7 @@ function AboutSectionComponent() {
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
-        <p className="text-sm font-medium text-[var(--accent-soft)]">About</p>
+        <ChapterLabel number="01" label="About" />
         <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-6xl">
           A builder shaped by range, curiosity, and motion.
         </h2>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { ScrollProgress } from "./ScrollProgress";
 
 const ResumeModal = dynamic(
   () => import("./ResumeModal").then((m) => ({ default: m.ResumeModal })),
@@ -66,6 +67,7 @@ export function Navbar() {
 
   return (
     <>
+      <ScrollProgress />
       <header className="fixed left-0 right-0 top-0 z-50 border-b border-[#f5d76e]/10 bg-black/55 backdrop-blur-xl">
         <nav className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-3 text-white md:flex-row md:items-center md:justify-between md:py-4">
           <Link href="/" className="text-sm font-semibold tracking-wide transition hover:text-[#f5d76e]">

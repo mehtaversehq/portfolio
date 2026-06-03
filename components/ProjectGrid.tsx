@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { projects } from "@/data/projects";
 import type { PathName } from "@/data/paths";
 import { ProjectCard } from "./ProjectCard";
+import { ChapterLabel } from "./ChapterLabel";
 
 export function ProjectGrid({ selectedPath, featuredOnly = false }: { selectedPath: PathName; featuredOnly?: boolean }) {
   const visibleProjects = useMemo(
@@ -28,7 +29,7 @@ export function ProjectGrid({ selectedPath, featuredOnly = false }: { selectedPa
         className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end"
       >
         <div>
-          <p className="text-sm font-medium opacity-70">Featured proof</p>
+          <ChapterLabel number="02" label="Proof" />
           <h2 className="mt-2 text-3xl font-semibold tracking-tight md:text-5xl">Latest Projects</h2>
           <div className="mt-4 h-px w-20 bg-gradient-to-r from-[var(--accent)] to-transparent opacity-70" />
         </div>
