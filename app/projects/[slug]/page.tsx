@@ -39,6 +39,7 @@ export default function ProjectDetailPage({ params }: { params: { slug: string }
             ))}
           {project.videoUrl && <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-black"><PlayCircle size={16} /> Demo video</a>}
           {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-current/15 px-5 py-3 text-sm font-semibold"><Code2 size={16} />GitHub</a>}
+          {project.caseStudyUrl && <a href={project.caseStudyUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-current/15 px-5 py-3 text-sm font-semibold"><ArrowUpRight size={16} />Case Study PDF</a>}
         </div>
 
         <section className="mt-12 rounded-[2rem] border border-current/15 bg-current/5 p-6 md:p-8">

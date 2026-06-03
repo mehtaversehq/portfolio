@@ -11,6 +11,10 @@ export type Project = {
   githubUrl?: string;
   liveUrl?: string;
   appUrl?: string;
+  caseStudyUrl?: string;
+  thumbnailUrl?: string;
+  thumbnailLinkUrl?: string;
+  hideCaseStudyLink?: boolean;
   featured: boolean;
   result: string;
   decisions: string[];
@@ -26,6 +30,8 @@ export const projects: Project[] = [
     stack: ["FastAPI", "Supabase", "PostgreSQL", "Redis", "React Native/Expo", "Google OAuth"],
     // TODO: Replace this placeholder with the real Rumore App Store, Play Store, or official landing page link once available.
     appUrl: "#",
+    thumbnailUrl: "/projects/rumore-campus-social-platform/rumore-thumbnail.png",
+    hideCaseStudyLink: true,
     featured: true,
     result: "Turned a raw campus product idea into a structured backend, auth, and launch architecture.",
     decisions: ["Separated identity-sensitive flows", "Used Redis for fast temporary state", "Designed campus-based access control"]
@@ -37,8 +43,9 @@ export const projects: Project[] = [
     summary: "A Python-based AI marketing assistant that lets users query campaign data, business documents, and performance metrics.",
     description: "Built an AI assistant workflow for data aggregation, validation, insight generation, report building, and feedback refinement to help marketers make faster but human-controlled decisions.",
     stack: ["Python", "AI Agent", "Data Analysis", "Report Generation", "Decision Support"],
-    videoUrl: "https://youtube.com/",
-    githubUrl: "https://github.com/",
+    githubUrl: "https://github.com/mehtaversehq/Marketing-Assistant-AI-Agent.git",
+    thumbnailUrl: "/projects/marketing-assistant-ai-agent/thumbnail.png",
+    hideCaseStudyLink: true,
     featured: true,
     result: "Converted scattered marketing information into a queryable decision-support workflow.",
     decisions: ["Kept humans in the approval loop", "Separated retrieval from insight generation", "Documented hallucination and data privacy risks"]
@@ -50,8 +57,10 @@ export const projects: Project[] = [
     summary: "A Tableau-driven analysis of Medicaid drug reimbursement, high-cost drugs, population-adjusted spending, and state-level cost variation.",
     description: "Built dashboards using calculated per-capita reimbursement fields to compare drug costs, Medicaid vs. non-Medicaid spending, and geographic cost concentration.",
     stack: ["Tableau", "Excel", "Data Analysis", "Healthcare Analytics", "Data Visualization"],
-    videoUrl: "https://youtube.com/",
-    githubUrl: "https://github.com/",
+    githubUrl: "https://github.com/mehtaversehq/Medicaid-Pharmaceutical-Spending-Analysis.git",
+    caseStudyUrl: "/projects/medicaid-pharmaceutical-spending-analysis/yajat%20mehta%20-%20final%20medicaid.pdf",
+    thumbnailUrl: "/projects/medicaid-pharmaceutical-spending-analysis/medicaid-dashboard-thumbnail.png",
+    thumbnailLinkUrl: "https://www.youtube.com/watch?v=K58ehBFQwTQ&t=0s",
     featured: true,
     result: "Identified high-cost specialty drugs and state-level cost concentration as stronger pressure points than generic volume.",
     decisions: ["Used per-capita reimbursement to normalize comparisons", "Separated Medicaid and non-Medicaid views", "Focused recommendations on rebate and prior authorization strategy"]
