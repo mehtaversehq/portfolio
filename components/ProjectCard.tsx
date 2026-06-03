@@ -34,7 +34,7 @@ function ProjectCardComponent({ project, selectedPath, index = 0 }: { project: P
       exit={{ opacity: 0, y: 18 }}
       whileHover={{ y: -5 }}
       transition={{ duration: 0.34, delay: index * 0.035, ease: [0.22, 1, 0.36, 1] }}
-      className={`group [contain:content] rounded-[1.75rem] border ${theme.border} ${theme.card} p-5 shadow-lg shadow-black/25 transition-[border-color,box-shadow,transform] duration-300 hover:border-[var(--accent-border)] hover:shadow-[0_12px_42px_var(--accent-glow)]`}
+      className={`group [contain:content] rounded-[1.75rem] border ${theme.border} ${theme.card} p-5 shadow-lg shadow-black/25 transition-[border-color,box-shadow] duration-300 hover:border-[var(--accent-border)] hover:shadow-[0_12px_42px_var(--accent-glow)]`}
     >
       <div className="relative mb-5 aspect-video overflow-hidden rounded-[1.25rem] border border-[color-mix(in_srgb,var(--accent)_14%,transparent)] bg-gradient-to-br from-[color-mix(in_srgb,var(--accent)_12%,transparent)] to-transparent">
         <div className="pointer-events-none absolute inset-0 translate-x-[-120%] bg-[linear-gradient(115deg,transparent,color-mix(in_srgb,var(--accent-soft)_20%,transparent),transparent)] transition-transform duration-700 group-hover:translate-x-[120%]" />

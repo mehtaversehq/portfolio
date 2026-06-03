@@ -2,17 +2,29 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight, Download, Mail } from "lucide-react";
+
 import { pathThemes, type PathName } from "@/data/paths";
 import { TypingIdentity } from "./TypingIdentity";
 
+const reveal = {
+  hidden: { opacity: 0, y: 14 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (el) {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    window.history.replaceState(null, "", `/#${id}`);
+  } else {
+    window.location.href = `/#${id}`;
+  }
+}
+
 export function Hero({ selectedPath, onResumeClick }: { selectedPath: PathName; onResumeClick: () => void }) {
   const theme = pathThemes[selectedPath];
-  const reveal = {
-    hidden: { opacity: 0, y: 14 },
-    visible: { opacity: 1, y: 0 },
-  };
 
   return (
     <section className="relative mx-auto grid min-h-[84vh] max-w-7xl items-center gap-10 px-5 pb-12 pt-28 md:grid-cols-[1.15fr_0.85fr]">
@@ -51,16 +63,23 @@ export function Hero({ selectedPath, onResumeClick }: { selectedPath: PathName; 
           Business Data Analytics and Artificial Intelligence in Business graduate from Arizona State University, focused on analytics, machine learning, backend systems, product strategy, and security-aware design.
         </motion.p>
         <motion.div variants={reveal} transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }} className="mt-8 flex flex-wrap gap-3">
-          <Link href="#projects" className="group inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-black shadow-[0_0_60px_var(--accent-glow)] transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--accent-soft)] hover:shadow-[0_0_70px_var(--accent-glow)]">
+          <button type="button" onClick={() => scrollToSection("projects")} className="group inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-black shadow-[0_0_60px_var(--accent-glow)] transition duration-300 hover:-translate-y-0.5 hover:bg-[var(--accent-soft)] hover:shadow-[0_0_70px_var(--accent-glow)]">
             Explore My Work <ArrowRight className="transition group-hover:translate-x-0.5" size={16} />
-          </Link>
+          </button>
           <button type="button" onClick={onResumeClick} className="group inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--accent)_18%,transparent)] bg-[#101010]/40 px-5 py-3 text-sm font-semibold transition duration-300 hover:-translate-y-0.5 hover:border-[var(--accent-border)] hover:bg-[#181818]/70 hover:shadow-[0_0_55px_var(--accent-glow)]">
             Download Resume <Download size={16} />
           </button>
-          <Link href="#contact" className="group inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--accent)_18%,transparent)] bg-[#101010]/40 px-5 py-3 text-sm font-semibold transition duration-300 hover:-translate-y-0.5 hover:border-[var(--accent-border)] hover:bg-[#181818]/70 hover:shadow-[0_0_55px_var(--accent-glow)]">
+          <button type="button" onClick={() => scrollToSection("contact")} className="group inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,var(--accent)_18%,transparent)] bg-[#101010]/40 px-5 py-3 text-sm font-semibold transition duration-300 hover:-translate-y-0.5 hover:border-[var(--accent-border)] hover:bg-[#181818]/70 hover:shadow-[0_0_55px_var(--accent-glow)]">
             Contact Me <Mail size={16} />
-          </Link>
+          </button>
         </motion.div>
+        <motion.p
+          variants={reveal}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-5 text-xs text-zinc-500"
+        >
+          Filter projects by what you&apos;re hiring for&nbsp;↓
+        </motion.p>
       </motion.div>
 
       <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.65 }} className="relative">

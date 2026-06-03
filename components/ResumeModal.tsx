@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, X } from "lucide-react";
 
 type ResumeOption = {
   label: string;
@@ -10,17 +10,20 @@ type ResumeOption = {
   href: string;
 };
 
-const targetedResumes: ResumeOption[] = [
-  {
-    label: "Analytics & BI",
-    hint: "Dashboards, SQL, Tableau, healthcare, finance, and data warehousing.",
-    href: "/resumes/data.pdf",
-  },
+const featuredResumes: ResumeOption[] = [
   {
     label: "AI & Machine Learning",
     hint: "Python, machine learning, NLP, agents, cloud ML, and applied AI systems.",
     href: "/resumes/ai.pdf",
   },
+  {
+    label: "Analytics & BI",
+    hint: "Dashboards, SQL, Tableau, healthcare, finance, and data warehousing.",
+    href: "/resumes/data.pdf",
+  },
+];
+
+const otherResumes: ResumeOption[] = [
   {
     label: "Product & Systems",
     hint: "Full-stack systems, backend architecture, app logic, workflows, and system design.",
@@ -74,8 +77,11 @@ function ResumeOptionCard({ option, featured = false }: { option: ResumeOption; 
 }
 
 export function ResumeModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const [othersExpanded, setOthersExpanded] = useState(false);
+
   useEffect(() => {
     if (!open) return;
+    setOthersExpanded(false);
 
     function handleKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") onClose();
@@ -125,13 +131,14 @@ export function ResumeModal({ open, onClose }: { open: boolean; onClose: () => v
               </p>
             </div>
 
+            {/* Featured: AI & Analytics */}
             <motion.div
               className="mt-6 grid gap-3 md:grid-cols-2"
               initial="hidden"
               animate="visible"
               variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
             >
-              {targetedResumes.map((option) => (
+              {featuredResumes.map((option) => (
                 <motion.div
                   key={option.label}
                   variants={{
@@ -144,11 +151,45 @@ export function ResumeModal({ open, onClose }: { open: boolean; onClose: () => v
               ))}
             </motion.div>
 
+            {/* Collapsible: other roles */}
+            <div className="mt-3">
+              <button
+                type="button"
+                onClick={() => setOthersExpanded((v) => !v)}
+                className="flex items-center gap-1.5 text-sm text-slate-400 transition hover:text-slate-200"
+              >
+                <ChevronDown
+                  size={15}
+                  className={`transition-transform duration-200 ${othersExpanded ? "rotate-180" : ""}`}
+                />
+                {othersExpanded ? "Hide other roles" : "Other roles"}
+              </button>
+
+              <AnimatePresence initial={false}>
+                {othersExpanded && (
+                  <motion.div
+                    key="others"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-3 grid gap-3 md:grid-cols-2">
+                      {otherResumes.map((option) => (
+                        <ResumeOptionCard key={option.label} option={option} />
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             <div className="mt-4 border-t border-white/10 pt-4">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.38, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.38, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
               >
                 <ResumeOptionCard option={masterResume} featured />
               </motion.div>

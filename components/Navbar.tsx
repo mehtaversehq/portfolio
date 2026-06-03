@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ResumeModal } from "./ResumeModal";
+import dynamic from "next/dynamic";
+
+const ResumeModal = dynamic(
+  () => import("./ResumeModal").then((m) => ({ default: m.ResumeModal })),
+  { ssr: false },
+);
 
 type NavLink =
   | { id: string; label: string; isResume?: false }
@@ -37,7 +42,14 @@ export function Navbar() {
     );
 
     sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+
+    const handleOpenModal = () => setResumeModalOpen(true);
+    window.addEventListener("open-resume-modal", handleOpenModal);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("open-resume-modal", handleOpenModal);
+    };
   }, []);
 
   function scrollToSection(id: string) {

@@ -4,6 +4,7 @@ import { memo } from "react";
 import { motion } from "framer-motion";
 import type { Variants } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { SkillPill } from "./SkillPill";
 
 const skillCategories = [
   { title: "Analytics & BI", skills: ["Data Analysis", "Analytical Skills", "Tableau", "Power BI", "Advanced Excel", "PivotTables", "Dashboarding", "Data Visualization", "Data Mining", "Data Governance", "Healthcare Analytics", "Bias Analysis", "Location Analysis"] },
@@ -61,13 +62,6 @@ const card: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.46, ease: easeOut } },
 };
 
-function SkillChip({ children }: { children: string }) {
-  return (
-    <span className="rounded-full border border-[color-mix(in_srgb,var(--accent)_16%,transparent)] bg-[color-mix(in_srgb,var(--accent)_6%,transparent)] px-3 py-1 text-xs font-medium text-zinc-300 transition hover:border-[var(--accent-border)] hover:text-[var(--accent-soft)]">
-      {children}
-    </span>
-  );
-}
 
 function SkillsSectionComponent() {
   return (
@@ -102,7 +96,7 @@ function SkillsSectionComponent() {
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-soft)]">{category.title}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               {category.skills.map((skill) => (
-                <SkillChip key={skill}>{skill}</SkillChip>
+                <SkillPill key={skill}>{skill}</SkillPill>
               ))}
             </div>
           </motion.article>
@@ -146,7 +140,7 @@ function SkillsSectionComponent() {
               )}
               <div className="mt-4 flex flex-wrap gap-2">
                 {certification.focus.map((skill) => (
-                  <SkillChip key={skill}>{skill}</SkillChip>
+                  <SkillPill key={skill}>{skill}</SkillPill>
                 ))}
               </div>
               <a
